@@ -19,7 +19,7 @@ notes.post('/', (req, res) => {
       id: uuid(),
     };
 
-    readAndAppend(note, './db/db.json');
+    readAndAppend(note, '/db/db.json');
     res.json('Successfully Added Note');
   } else {
     res.error('Oops, Something Went Wrong');
@@ -28,13 +28,13 @@ notes.post('/', (req, res) => {
 
 notes.delete('api/notes/:id', (req, res) => {
   try {
-    notes = fs.readFile('/db/db.json', 'utf8');
+    notes = fs.readFile('./db/db.json', 'utf8');
     notes = JSON.parse(notes);
     notes = notes.filter(function (dataNote) {
       return dataNote.id !== req.params.id;
     });
     notes = JSON.stringify(notes);
-    fs.writeFile('/db/db.json', notes, 'utf-8', (err) => {
+    fs.writeFile('./db/db.json', notes, 'utf-8', (err) => {
       if (err) throw err;
     });
     res.send(JSON.parse(notes));
