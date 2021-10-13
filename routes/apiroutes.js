@@ -1,46 +1,33 @@
-const path = require('path');
+const { response } = require('express');
 const fs = require('fs');
 const uuid = require('uuid');
-const notes = require('express').Router();
-const { readFromFile, readAndAppend } = require('../helpers/fsUtils');
+const app = require('express').Router();
 
 // get notes and send to front
 
-notes.get('/', (req, res) => {
-  readFromFile('.db/db.json').then((data) => res.json(JSON.parse(data)));
+app.get('/api/notes', (req, res) => {
+  console.log('getting info');
+  let data = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'));
+  res.json(data);
+  console.log(data);
 });
 
-notes.post('/', (req, res) => {
-  const { title, text } = req.body;
-  if (req.body) {
-    const note = {
-      title,
-      text,
-      id: uuid(),
-    };
-
-    readAndAppend(note, '/db/db.json');
-    res.json('Successfully Added Note');
-  } else {
-    res.error('Oops, Something Went Wrong');
-  }
+app.post('/api/notes', (req, res) => {
+  const note = req.body;
+  note.id = uuid;
+  let data = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'));
+  data.push(note);
+  fs.writeFileSync('./db/db.json', JSON.stringify(data));
+  console.log('\nAdded new note to db file');
+  res.json(data);
 });
 
-notes.delete('api/notes/:id', (req, res) => {
-  try {
-    notes = fs.readFile('./db/db.json', 'utf8');
-    notes = JSON.parse(notes);
-    notes = notes.filter(function (dataNote) {
-      return dataNote.id !== req.params.id;
-    });
-    notes = JSON.stringify(notes);
-    fs.writeFile('./db/db.json', notes, 'utf-8', (err) => {
-      if (err) throw err;
-    });
-    res.send(JSON.parse(notes));
-  } catch (err) {
-    throw err;
-  }
+app.delete('/api/notes/:id', (req, res) => {
+  let noteID = request.params.id.toString();
+  let data = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'));
+  const newNoteData = data.filter((note) => note.id.toString() !== noteID);
+  fs.writeFileSync('.db/db.json', JSON.stringify(newNoteData));
+  res.json(newNoteData);
 });
 
-module.exports = notes;
+module.exports = app;
