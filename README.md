@@ -1,5 +1,8 @@
 # Title: Note Taker Express
 
+![image](https://user-images.githubusercontent.com/86039208/155183483-db599ea8-8b01-411b-ab02-8a3dab068498.png)
+
+
 ## Table of Contents
 
 1.[Description](#description)</br> 2.[Installation](#installation)</br> 3.[Usage](#usage)</br> 4.[Contributors](#contributors)</br> 5.[Testing Info](#testing)</br> 6.[License Info](#license)</br> 7.[Questions](#questions)</br>
